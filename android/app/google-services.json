@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "344025500401",
+    "project_id": "hendrikson-firebase",
+    "storage_bucket": "hendrikson-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344025500401:android:0b93a393029d04c05d3750",
+        "android_client_info": {
+          "package_name": "com.example.working_with_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "344025500401-1ot4fa0lloo0u9a6msarucntbee2us4k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCBubKiAUozDm09XAvT2AKQj9KHw7YIGI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "344025500401-1ot4fa0lloo0u9a6msarucntbee2us4k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
