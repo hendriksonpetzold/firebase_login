@@ -9,10 +9,10 @@ class AuthException implements Exception {
 
 class AuthService extends ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
-  User? usuario;
+  User? user;
   bool isLoading = true;
   getUser() {
-    usuario = auth.currentUser;
+    user = auth.currentUser;
     notifyListeners();
   }
 
@@ -21,13 +21,13 @@ class AuthService extends ChangeNotifier {
   }
   authCheck() {
     auth.authStateChanges().listen((User? user) {
-      usuario = (user == null) ? null : user;
+      user = (user == null) ? null : user;
       isLoading = false;
       notifyListeners();
     });
   }
 
-  login(String email, String senha) async {
+  Future login(String email, String senha) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: senha);
       getUser();

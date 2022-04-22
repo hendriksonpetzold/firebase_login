@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:working_with_firebase/service/auth_service.dart';
 
 class LoginPageForm extends StatefulWidget {
-  LoginPageForm({Key? key}) : super(key: key);
+  const LoginPageForm({Key? key}) : super(key: key);
 
   @override
   State<LoginPageForm> createState() => _LoginPageFormState();
@@ -14,11 +14,11 @@ class _LoginPageFormState extends State<LoginPageForm> {
 
   final TextEditingController email = TextEditingController();
 
-  final TextEditingController senha = TextEditingController();
+  final TextEditingController password = TextEditingController();
 
-  login() async {
+  Future login() async {
     try {
-      await AuthService().login(email.text, senha.text);
+      await AuthService().login(email.text, password.text);
     } on AuthException catch (e) {
       print(e.message);
     }
@@ -26,7 +26,7 @@ class _LoginPageFormState extends State<LoginPageForm> {
 
   @override
   Widget build(BuildContext context) {
-    AuthService autenticador = AuthService();
+    AuthService autentication = AuthService();
     return Column(
       children: [
         Form(
@@ -61,10 +61,7 @@ class _LoginPageFormState extends State<LoginPageForm> {
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   child: Center(
                     child: TextFormField(
-                      controller: senha,
-                      onChanged: (value) {
-                        print(value);
-                      },
+                      controller: password,
                       obscureText: true,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
@@ -102,11 +99,9 @@ class _LoginPageFormState extends State<LoginPageForm> {
                       color: Color.fromARGB(255, 238, 15, 55),
                     ),
                     child: TextButton(
-                      onPressed: () {
-                        print(email.text);
-                        print(senha.text);
-                        login();
-                        if (autenticador.usuario != null) {
+                      onPressed: () async {
+                        await login();
+                        if (autentication.user != null) {
                           Navigator.of(context).pushNamed('/homepage');
                         }
                       },

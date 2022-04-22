@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                 textAlign: TextAlign.center,
               ),
             ),
-            LoginPageForm(),
+            const LoginPageForm(),
             const TextWithInkWellButton(
                 buttonText: 'Register',
                 pageText: 'Dont have and account! ',
