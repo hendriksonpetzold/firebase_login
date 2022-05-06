@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:working_with_firebase/pages/home_page/controller/home_controller.dart';
+import 'package:working_with_firebase/pages/home_page/component/increment_button.dart';
+import 'package:working_with_firebase/pages/home_page/home_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -12,15 +15,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage> {
-  HomeController controller = HomeController();
-  Future<void> _incrementCounter() {
-    setState(() {
-      controller.counter++;
-    });
-    return controller.fireBaseRef
-        .doc('contador')
-        .set({'incrementcounter': controller.counter});
+  @override
+  void initState() {
+    super.initState();
+    setState(() {});
+
+    () async {
+      await controller.counterGet();
+    };
+    controller.userCheck();
+    setState(() {});
   }
+
+  HomeController controller = HomeController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,21 +43,40 @@ class _MyHomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: [
+            Text(controller.userEmail),
+            const SizedBox(
+              height: 50,
+            ),
             const Text(
               'You have pushed the button this many times:',
             ),
             Text(
-              '${controller.finalCounter}',
+              '${controller.fireBaseCounter}',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            TextButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut().then(
+                      (value) => {
+                        Navigator.of(context).pushNamed('/'),
+                      },
+                    );
+              },
+              child: const Text('LOGOUT'),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: IncrementButton(
+        increment: () async {
+          await controller.incrementCounter(() {
+            setState(() {});
+          });
+        },
       ),
     );
   }

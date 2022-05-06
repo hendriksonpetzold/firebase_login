@@ -1,6 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:working_with_firebase/service/auth_service.dart';
 
 class LoginPageForm extends StatefulWidget {
   const LoginPageForm({Key? key}) : super(key: key);
@@ -16,17 +15,8 @@ class _LoginPageFormState extends State<LoginPageForm> {
 
   final TextEditingController password = TextEditingController();
 
-  Future login() async {
-    try {
-      await AuthService().login(email.text, password.text);
-    } on AuthException catch (e) {
-      print(e.message);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    AuthService autentication = AuthService();
     return Column(
       children: [
         Form(
@@ -100,9 +90,21 @@ class _LoginPageFormState extends State<LoginPageForm> {
                     ),
                     child: TextButton(
                       onPressed: () async {
-                        await login();
-                        if (autentication.user != null) {
-                          Navigator.of(context).pushNamed('/homepage');
+                        try {
+                          await FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
+                            email: email.text,
+                            password: password.text,
+                          )
+                              .then((value) {
+                            Navigator.of(context).pushNamed('/homepage');
+                          });
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(e.toString()),
+                            ),
+                          );
                         }
                       },
                       child: const Text(

@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:working_with_firebase/pages/home_page/home_controller.dart';
 import 'package:working_with_firebase/pages/onboarding_page/components/getstarted_button.dart';
 import 'package:working_with_firebase/pages/onboarding_page/components/image_using_stack.dart';
 import 'package:working_with_firebase/components/text_with_inkwellbutton.dart';
 
-class OnboardingPage extends StatelessWidget {
+class OnboardingPage extends StatefulWidget {
   const OnboardingPage({Key? key}) : super(key: key);
 
+  @override
+  State<OnboardingPage> createState() => _OnboardingPageState();
+}
+
+class _OnboardingPageState extends State<OnboardingPage> {
+  HomeController controller = HomeController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
