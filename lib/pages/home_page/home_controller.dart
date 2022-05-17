@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class HomeController {
   int? fireBaseCounter;
@@ -39,5 +38,10 @@ class HomeController {
       fireBaseRef.doc('contador').set({'incrementcounter': fireBaseCounter});
     }
     callback();
+  }
+
+  Future<void> initPage() async {
+    await userCheck();
+    await counterGet();
   }
 }
