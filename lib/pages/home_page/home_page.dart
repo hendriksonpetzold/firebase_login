@@ -18,11 +18,7 @@ class _MyHomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    setState(() {});
 
-    () async {
-      await controller.counterGet();
-    };
     controller.userCheck();
     setState(() {});
   }
@@ -40,60 +36,58 @@ class _MyHomePageState extends State<HomePage> {
           statusBarIconBrightness: Brightness.dark,
         ),
       ),
-      body: FutureBuilder(
-        future: controller.initPage(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(controller.userEmail),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  const Text(
-                    'You have pushed the button this many times:',
-                  ),
-                  Text(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(controller.userEmail),
+            const SizedBox(
+              height: 50,
+            ),
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FutureBuilder(
+              future: controller.counterGet(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return Text(
                     '${controller.fireBaseCounter}',
                     style: Theme.of(context).textTheme.headline4,
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut().then(
-                            (value) => {
-                              Navigator.of(context).pushNamed('/'),
-                            },
-                          );
-                    },
-                    child: const Text('LOGOUT'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: IncrementButton(
-                        increment: () async {
-                          await controller.incrementCounter(() {
-                            setState(() {});
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Container();
+                  );
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Container();
+              },
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            TextButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut().then(
+                      (value) => {
+                        Navigator.of(context).pushNamed('/'),
+                      },
+                    );
+              },
+              child: const Text('LOGOUT'),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: IncrementButton(
+        increment: () async {
+          await controller.incrementCounter(() {
+            setState(() {});
+          });
         },
       ),
     );
